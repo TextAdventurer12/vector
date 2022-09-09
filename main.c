@@ -1,15 +1,16 @@
 #include "vector.h"
+#include "macros.h"
 #include <stdio.h>
+
+typedef struct
+{
+    int* arr;
+    unsigned int len;
+} intVector;
+
 
 int main(void)
 {
-    make_vec(testVector, intVector);
-    for (int i = 0; i < 32; i++)
-    {
-        push_back(testVector, i, int);
-    }
-    for (int i = 0; i < 32; i++)
-    {
-        printf("%d", i);
-    }
+    
+    printf("\n");
 }
