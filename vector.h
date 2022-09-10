@@ -2,29 +2,32 @@
 #define VECTOR_H
 
 #include <stdlib.h>
-#include "macros.h"
-#include <stdio.h>
+
+#define ALLOCATION_FAILURE 2
+#define loop(var, max) for(int var=0;var<max;var++)
+
+#define vector(T) typedef struct { T* arr; unsigned int len; }T##Vector;
 
 // Add an element to the end of the vector
 // this is a pointer to the vector that is being modified
 // push is the value that is being added to the vector
 // type is the type of the push value and vector
-#define push_back(this, push)                                                                   \
-        this->len++;                                                                            \
-        {typeof(push) * _r = realloc(this->arr, this->len * sizeof(typeof(push)));            \
-        if (_r) { this->arr = _r; } else { printf("FATAL ALLOCATION ERROR"); exit(2); }}        \
-        this->arr[this->len - 1] = push;                                                        \
+#define push_back(this, push)                                                           \
+        this->len++;                                                                    \
+        {typeof(push) * _r = realloc(this->arr, this->len * sizeof(typeof(push)));      \
+        if (_r) { this->arr = _r; } else { exit(ALLOCATION_FAILURE); }}                 \
+        this->arr[this->len - 1] = push;                                                \
 
 // Remove an element from a given index in the vector
 // this is a pointer to the vector that is being modified
 // index is the index of the value being removed
 // type is the type of the vector
 // the function is not safe if you use values outside the bounds of the array
-#define remove_at(this, index)                                                                            \
-        for(int i=index+1;i<this->len;i++){this->arr[i-1]=this->arr[i]; }                                 \
-        this->len--;                                                                                      \
-        {typeof(this->arr[0]) * _r = realloc(this->arr, this->len * sizeof(typeof(this->arr[0])));        \
-        if (_r) { this->arr = _r; } else { printf("FATAL ALLOCATION ERROR"); exit(2); }}                  \
+#define remove_at(this, index)                                                                          \
+        for(int i=index+1;i<this->len;i++){this->arr[i-1]=this->arr[i]; }                               \
+        this->len--;                                                                                    \
+        {typeof(this->arr[0]) * _r = realloc(this->arr, this->len * sizeof(typeof(this->arr[0])));      \
+        if (_r) { this->arr = _r; } else { exit(ALLOCATION_FAILURE); }}                                 \
 
 // Copies an array into the given vector
 // this is a pointer to the relevant vector
@@ -63,5 +66,9 @@ typedef struct
 
 } templateVector;
 
+// Makes default vectors for some common variable types
+vector(int);
+vector(float);
+vector(char);
 
 #endif
