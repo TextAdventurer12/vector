@@ -35,3 +35,4 @@ typedef struct {
 ```
 as in this example char* keys would be left unallocated with the default constructor, and if memory was allocated, would cause memory to leak with the default constructor. As such, if you use vectors made with anything but the default vector(T) or you use a struct with allocated memory within it as T I would advise creating custom constructors and destructors.
 Beyond constructors and destructors, this will work with any type, including custom types, including vectors of vectors, although the names become unweildy quickly.
+To actually use this just attach the header file into the project and include it into every file that it's used in.
